@@ -1,0 +1,9 @@
+**/*.pyc
+**/__pycache__
+.DS_Store
+*.sqlite3
+
+# Accept these files in the repository
+!.gitignore
+!.travis.yml
+/.vscode
