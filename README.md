@@ -45,11 +45,54 @@ To edit the scheduler go to topShotScrapper/settings.py and go to the CELERY_BEA
 
 ## Here are some screenshots of the finished project
 
+<p align="center">
+  <p align="center">
+      <img src="screenshots/Home.png">
+    </a>
+  </p>
+  <p align="center">
+    Home Screen
+  </p>
+</p>
 
-<img src="screenshots/home.png">
-<img src="screenshots/moment_data.png">
-<img src="screenshots/sets.png">
-<img src="screenshots/detailed-set.png">
+<br />
+<br />
+<br />
 
+<p align="center">
+  <p align="center">
+      <img src="screenshots/moment_data.png">
+    </a>
+  </p>
+  <p align="center">
+    Moment Data
+  </p>
+</p>
 
+<br />
+<br />
+<br />
 
+<p align="center">
+  <p align="center">
+      <img src="screenshots/sets.png">
+    </a>
+  </p>
+  <p align="center">
+    Sets
+  </p>
+</p>
+
+<br />
+<br />
+<br />
+
+<p align="center" >
+  <p align="center">
+      <img src="screenshots/detailed-set.png">
+    </a>
+  </p>
+  <p align="center">
+    Detailed Set
+  </p>
+</p>
