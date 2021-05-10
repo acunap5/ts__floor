@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .graph{
+      background-color: rgb(255, 255, 255);    
+      text-align: center;
+    }
+</style>
+<style>
+    svg { background-color: rgb(255, 255, 255);}
+
+    .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    }
+
+    .area { fill: #4ca3bd; }
+</style>
+
+<style>
+    #chart {
+        text-align: center;
+        margin-top: 40px;
+    }
+    .selection {
+        fill: none;
+    }
+</style>
+
+<div class="limiter">
+    <div class="container-table100">
+		<div class="wrap-table100">
+            <center> <h3 style="color:black;"> {{ts.player_name}} </h1></center>
+            <center> <h4 style="color:black;"> {{ts.play_type}} - {{ts.date_game}}, {{ts.set_name}}, {{ts.team}}</h1></center>
+            <center> <h4 style="color:black;"> {{ts.rarity}} #/{{ts.out_of}} {{ts.edition}}</h1></center>
+            <center> <h4 style="color:black; padding-bottom: 10px">Lowest Ask: ${{ts.curr_price}}</h1></center>
+
+
+			<div class="table100">
+                <center><svg id="area"> </svg></center>
+                <script src="https://d3js.org/d3.v6.min.js"></script>
+                <script>
+                    //making JS Arrays of data
+                    datejs = {{ dates | safe}}
+                    open_price = {{ open_price }}
+                    close_price = {{ close_price }}
+                    high_price = {{ high_price }}
+                    low_price = {{ low_price }}
+                    n = datejs.length
+
+                    //converting datejs from strings => dates
+                    datejs = datejs.map( date => new Date(date) )
+
+                    //creating data array for d3 object for candlestick chart
+                    var data = new Array(n)
+                    for (i = 0; i < n; i++){
+                        data[i] = ({'date' : datejs[i] , 
+                                   'high' : high_price[i],
+                                   'low' : low_price[i],
+                                   'open' : open_price[i],
+                                   'close' : close_price[i],
+                                });
+                    }
+
+                    //d3 required parameters and fucntions
+                    height = 600;
+                    width = 1000;
+                    margin = ({top: 20, right: 30, bottom: 30, left: 40})
+
+                    x = d3.scaleBand()
+                        .domain(d3.utcDay
+                            .range(data[0].date, +data[data.length - 1].date + 1))
+                        .range([margin.left, width - margin.right])
+                        .padding(0.2);
+
+                    y = d3.scaleLog()
+                        .domain([d3.min(data, d => d.low), d3.max(data, d => d.high)])
+                        .rangeRound([height - margin.bottom, margin.top]);
+
+                    xAxis = g => g
+                        .attr("transform", `translate(0,${height - margin.bottom})`)
+                        .call(d3.axisBottom(x)
+                            .tickValues(d3.utcMonday
+                                .range(data[0].date, data[data.length - 1].date))
+                            .tickFormat(d3.utcFormat("%-m/%-d/%-y")))
+                        .call(g => g.select(".domain").remove());
+
+                    yAxis = g => g
+                        .attr("transform", `translate(${margin.left},0)`)
+                        .call(d3.axisLeft(y)
+                            .tickFormat(d3.format("$~f"))
+                            .tickValues(d3.scaleLinear().domain(y.domain()).ticks()))
+                        .call(g => g.selectAll(".tick line").clone()
+                            .attr("stroke-opacity", 0.2)
+                            .attr("x2", width - margin.left - margin.right))
+                        .call(g => g.select(".domain").remove());
+
+                    formatDate = d3.utcFormat("%B %-d, %Y")
+                    parseDate = d3.utcParse("%Y-%m-%d")
+                    formatValue = d3.format(".2f")
+
+
+                    //making the graph
+                    var svg = d3.select("svg#area")
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    svg.append("g").call(xAxis)
+                    svg.append("g").call(yAxis)
+
+
+                    const g = svg.append("g")
+                            .attr("stroke-linecap", "round")
+                            .attr("stroke", "black")
+                        .selectAll("g")
+                        .data(data)
+                        .join("g")
+                            .attr("transform", d => `translate(${x(d.date)},0)`);
+
+                    g.append("line")
+                        .attr("y1", d => y(d.low))
+                        .attr("y2", d => y(d.high));
+
+                    g.append("line")
+                        .attr("y1", d => y(d.open))
+                        .attr("y2", d => y(d.close))
+                        .attr("stroke-width", x.bandwidth())
+                        .attr("stroke", d => d.open > d.close ? d3.schemeSet1[0]
+                            : d.close > d.open ? d3.schemeSet1[2]
+                            : d3.schemeSet1[8]);
+
+                    g.append("title")
+                        .text(d => `${formatDate(d.date)}\nOpen: ${formatValue(d.open)}\nClose: ${formatValue(d.close)}\nLow: ${formatValue(d.low)}\nHigh: ${formatValue(d.high)}`);
+                    
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

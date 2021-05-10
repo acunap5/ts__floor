@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .cards {
+    
+    display: grid;
+    
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    
+    grid-auto-rows: auto;
+    
+    grid-gap: 1rem;
+    
+    }
+    
+    &amp;amp;nbsp;
+    
+    .card {
+    
+    border: 2px solid #e7e7e7;
+    
+    border-radius: 4px;
+    
+    padding: .5rem;
+    
+    }
+</style>
+<div class="limiter">
+    <div class="container-table100">
+		<div class="wrap-table100">
+            <center> <h1 style="color:black;"> {{set.set_name}} </h1></center>
+            <center> <h3 style="color:black;"> Lowest Total Price: ${{tot}}</h3></center>
+            <center> <h3 style="color:black; padding-bottom: 10px"> Lowest Market Cap: ${{market_cap}}</h3></center>
+
+			<div class="table100">
+                <div class='cards'>
+                    {% for moment in moments %}
+                    <div class="card">
+                    <a href = '/{{moment.id}}'><img src={{moment.pic}} alt="Avatar" style="width:100%"></a>
+                        <div class="container">
+                            <h4><b> <center>{{moment.player_name}} </center> </b></h4> 
+                            <p><center>{{moment.play_type}}</center></p> 
+                            <p><center>#/{{moment.out_of}} <b>{{moment.edition}}</b></center></p> 
+                            <p><center>Price: ${{moment.curr_price}}</center></p> 
+
+                        </div>
+                    </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="limiter">
+	<div class="container-table100">
+		<form method='GET'>
+			<div class="input-group mb-3">
+				<input name='player_name' type="text" class="form-control" placeholder="Player Name" aria-label="Player Name" aria-describedby="button-addon2">
+				<button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+			</div>
+		<form>
+			{% if page_obj %}
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+					{% if page_obj.has_previous %}
+						<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+					{% endif %}
+	
+					<li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+					
+					{% if page_obj.has_next %}
+						<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+					{% endif %}
+				</ul>
+		</nav>
+		{% endif %}
+
+
+		<div class="wrap-table100">
+			<div class="table100">
+
+				<table>
+					<thead>
+						<tr class="table100-head">
+							<th class="column1">Moment</th>
+							<th class="column1">Player Name</th>
+							<th class="column1">Set Name</th>
+							<th class="column1">Play Type</th>
+							<th class="column1">Price</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for item in object_list %}
+						<tr>
+
+							<td class="column1"> <a href = "/{{ item.id }}"><img src = {{item.pic}}  height=100 width=100></a></td>
+							<td class="column1"> {{ item.player_name }}</td>
+							<td class="column1">{{ item.set_name }}</td>
+							<td class="column1">{{ item.play_type }}</td>
+							<td class="column1">${{ item.curr_price }}.00</td>
+						</tr>
+						{% endfor %}
+
+							
+					</tbody>
+				</table>
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock content %}
