@@ -43,4 +43,6 @@ It is currently configured to run every hour as it takes ~20 minutes to scrape e
 To edit how many teams you want to scrape go to core/tasks.py and lower the upperbound of the for loop.
 To edit the scheduler go to topShotScrapper/settings.py and go to the CELERY_BEAT_SCHEDULE and change the schedule value (in seconds).
 
-## Have fun!
+## Here are some screenshots of the finished project
+
+
