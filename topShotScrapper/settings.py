@@ -96,11 +96,11 @@ if DEBUG is False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'tsfloordb',
-            'USER': 'tsflooruser',
-            'PASSWORD': 'tsuser2205!',
-            'HOST': 'srv-captain--tsfloor-postgres-db',
-            'PORT': '5432'
+            'NAME': '',
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',
+            'PORT': ''
         }
     }
 
