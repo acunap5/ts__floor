@@ -96,16 +96,16 @@ if DEBUG is False:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': '',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': '',
-            'PORT': ''
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USERNAME'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT')
         }
     }
 
     # Celery
-    CELERY_BROKER_URL = 'redis://:tsredis2205!@srv-captain--tsfloor-redis:6379'
+    CELERY_BROKER_URL = env('CELERY_BROKER_URL')
     CELERY_TIMEZONE = 'UTC'
     CELERY_BEAT_SCHEDULE = {
         "ScrapeTeamData" : {
